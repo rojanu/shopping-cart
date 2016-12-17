@@ -1,4 +1,4 @@
-name := "shoppint-cart"
+name := "shopping-cart"
 
 version := "1.0"
 
