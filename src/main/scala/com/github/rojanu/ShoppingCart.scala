@@ -3,9 +3,11 @@ package com.github.rojanu
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
 
-class ShoppingCart(basketItems: Seq[String]) {
+class ShoppingCart {
 
-  val basket: Seq[Item] = basketItems.map(Shop.stock(_))
+  private var basket: Seq[Item] = Seq.empty[Item]
+
+  def addItem(name: String): Unit = basket = basket :+ Shop.stock(name)
 
   def subTotal: Future[BigDecimal] = Future(basket.foldLeft(BigDecimal(0))((sum, item) => sum + item.price))
 

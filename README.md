@@ -21,6 +21,12 @@
 
 
 ## Step 4: Even more complicated offers
-● The shop adds melons which cost £1
-● Melons are available through a separate 3 for 2 offer
-● Update your checkout
+* The shop adds melons which cost £1
+* Melons are available through a separate 3 for 2 offer
+* Update your checkout
+
+
+## Step 5: Real time checkout
+* Customers complain that they do not know how much their shopping costs until all produce are scanned
+* Re­implement your checkout to show a running total as items are scanned.
+
