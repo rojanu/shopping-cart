@@ -21,7 +21,13 @@ case class CheaperItemFreeQuantityOffer(get: Int, payFor: BigDecimal) extends Of
     } else if (itemGroups.length == 2) {
       val cheaperItems = itemGroups(0)._2
       val expensiveItems = itemGroups(1)._2
-      if(cheaperItems.size == expensiveItems.size){
+
+      if (cheaperItems.size > expensiveItems.size) {
+        val difference = cheaperItems.size - expensiveItems.size
+        val compoundOfferPrice = (payFor * (expensiveItems.size / get) + (expensiveItems.size % get)) * expensiveItems.head.price
+        val offerPrice = (payFor * (difference / get) + (difference % get)) * cheaperItems.head.price
+        Future(compoundOfferPrice + offerPrice)
+      } else if (cheaperItems.size == expensiveItems.size) {
         val size = cheaperItems.size + expensiveItems.size
         Future((payFor * (size / get) + (size % get)) * expensiveItems.head.price)
       } else {
