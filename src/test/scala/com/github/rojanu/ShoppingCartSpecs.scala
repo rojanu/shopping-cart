@@ -52,21 +52,33 @@ class ShoppingCartSpecs extends FlatSpec with Matchers with ScalaFutures{
     cart.total.futureValue shouldBe 0.60
   }
 
-  "A shopping cart containing Apple, Banana, Apple, Banana" should "be charged £0.60 pence at checkout" in {
+  "A shopping cart containing Apple, Banana, Apple, Banana" should "be charged £1.20 pence at checkout" in {
     val cart = new ShoppingCart(Seq("Apple", "Banana", "Apple", "Banana"))
     cart.subTotal.futureValue shouldBe 1.60
     cart.total.futureValue shouldBe 1.20
   }
 
-  "A shopping cart containing Apple, Banana, Banana" should "be charged £0.60 pence at checkout" in {
+  "A shopping cart containing Apple, Banana, Banana" should "be charged £0.80 pence at checkout" in {
     val cart = new ShoppingCart(Seq("Apple", "Banana", "Banana"))
     cart.subTotal.futureValue shouldBe 1.00
     cart.total.futureValue shouldBe 0.80
   }
 
-  "A shopping cart containing Apple, Banana, Banana, Banana" should "be charged £0.60 pence at checkout" in {
+  "A shopping cart containing Apple, Banana, Banana, Banana" should "be charged £0.80 pence at checkout" in {
     val cart = new ShoppingCart(Seq("Apple", "Banana", "Banana", "Banana"))
     cart.subTotal.futureValue shouldBe 1.20
     cart.total.futureValue shouldBe 0.80
+  }
+
+  "A shopping cart containing Apple, Banana, Apple" should "be charged £1.20 pence at checkout" in {
+    val cart = new ShoppingCart(Seq("Apple", "Banana", "Apple"))
+    cart.subTotal.futureValue shouldBe 1.40
+    cart.total.futureValue shouldBe 1.20
+  }
+
+  "A shopping cart containing Apple, Banana, Apple, Apple" should "be charged £1.80 pence at checkout" in {
+    val cart = new ShoppingCart(Seq("Apple", "Banana", "Apple", "Apple"))
+    cart.subTotal.futureValue shouldBe 2.00
+    cart.total.futureValue shouldBe 1.80
   }
 }
