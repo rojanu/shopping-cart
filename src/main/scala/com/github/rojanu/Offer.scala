@@ -4,9 +4,11 @@ import scala.concurrent.Future
 import scala.concurrent.ExecutionContext.Implicits.global
 
 trait Offer {
-  def toPay(quantity: Int, price: BigDecimal): Future[BigDecimal]
+  def toPay(items: Seq[Item]): Future[BigDecimal]
 }
 
 case class QuantityOffer(get: Int, payFor: BigDecimal) extends Offer {
-  override def toPay(quantity: Int, price: BigDecimal): Future[BigDecimal] = Future((payFor * (quantity / get) + (quantity % get)) * price)
+  override def toPay(items: Seq[Item]): Future[BigDecimal] = {
+    Future((payFor * (items.size / get) + (items.size % get)) * items.head.price)
+  }
 }

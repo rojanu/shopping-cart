@@ -5,11 +5,6 @@ import org.scalatest.{FlatSpec, Matchers}
 
 class ShoppingCartSpecs extends FlatSpec with Matchers with ScalaFutures{
 
-  private val apple = Item("Apple", .60, Seq(QuantityOffer(2, 1)))
-  private val banana = Item("Banana", .20, Seq(QuantityOffer(2, 1)))
-  private val orange = Item("Orange", .25, Seq(QuantityOffer(3, 2)))
-
-
   "Empty ShoppingCart" should "subTotal to 0" in {
     val cart: ShoppingCart = new ShoppingCart(Seq.empty)
     cart.subTotal.futureValue shouldBe 0
