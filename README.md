@@ -13,3 +13,10 @@
   * buy one, get one free on Apples
   * 3 for the price of 2 on Oranges
 * Update your checkout functions accordingly
+
+## Step 3: More complicated offers
+* The shop adds Bananas which cost 20p
+* Bananas are added to the same buy one, get one free offer as apples
+* The cheapest item should be given free first
+* Update your checkout
+
