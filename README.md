@@ -8,7 +8,6 @@
 * Make reasonable assumptions about the inputs to your solution; for example, many candidates take a list of strings as input
 
 ## Step 2: Simple offers
-
 * The shop decides to introduce two new offers
   * buy one, get one free on Apples
   * 3 for the price of 2 on Oranges
@@ -20,3 +19,8 @@
 * The cheapest item should be given free first
 * Update your checkout
 
+
+## Step 4: Even more complicated offers
+● The shop adds melons which cost £1
+● Melons are available through a separate 3 for 2 offer
+● Update your checkout

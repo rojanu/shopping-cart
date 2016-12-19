@@ -4,12 +4,14 @@ object Shop {
 
   private val apple = Item("Apple", .60)
   private val banana = Item("Banana", .20)
+  private val melon = Item("Melon", 1.00)
   private val orange = Item("Orange", .25)
 
   val stock: Map[String, Item] = Map(
     apple.name -> apple,
-    orange.name -> orange,
-    banana.name -> banana
+    banana.name -> banana,
+    melon.name -> melon,
+    orange.name -> orange
   )
 
   private val cheaperItemFreeQuantityOffer = CheaperItemFreeQuantityOffer(2, 1)
@@ -18,6 +20,7 @@ object Shop {
   val offers: Map[Item, Offer] = Map(
     apple -> cheaperItemFreeQuantityOffer,
     banana -> cheaperItemFreeQuantityOffer,
+    melon -> quantityOfferThreeForTwo,
     orange -> quantityOfferThreeForTwo
   )
 
