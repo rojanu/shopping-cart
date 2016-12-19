@@ -146,4 +146,52 @@ class ShoppingCartSpecs extends FlatSpec with Matchers with ScalaFutures {
     cart.subTotal.futureValue shouldBe 4.80
     cart.total.futureValue shouldBe 3.20
   }
+
+  "A shopping card" should "calculate a running total as items are scanned" in {
+    val cart = new ShoppingCart
+    cart.addItem("Apple").futureValue match {
+      case (subTotal, total) => {
+        subTotal shouldBe .60
+        total shouldBe .60
+      }
+    }
+
+    cart.addItem("Apple").futureValue match {
+      case (subTotal, total) => {
+        subTotal shouldBe 1.20
+        total shouldBe .60
+      }
+    }
+
+    cart.addItem("Melon").futureValue match {
+      case (subTotal, total) => {
+        subTotal shouldBe 2.20
+        total shouldBe 1.60
+      }
+    }
+
+    cart.addItem("Apple").futureValue match {
+      case (subTotal, total) => {
+        subTotal shouldBe 2.80
+        total shouldBe 2.20
+      }
+    }
+
+    cart.addItem("Melon").futureValue match {
+      case (subTotal, total) => {
+        subTotal shouldBe 3.80
+        total shouldBe 3.20
+      }
+    }
+
+    cart.addItem("Melon").futureValue match {
+      case (subTotal, total) => {
+        subTotal shouldBe 4.80
+        total shouldBe 3.20
+      }
+    }
+
+    cart.subTotal.futureValue shouldBe 4.80
+    cart.total.futureValue shouldBe 3.20
+  }
 }

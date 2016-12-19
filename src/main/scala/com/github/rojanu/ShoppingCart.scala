@@ -7,7 +7,16 @@ class ShoppingCart {
 
   private var basket: Seq[Item] = Seq.empty[Item]
 
-  def addItem(name: String): Unit = basket = basket :+ Shop.stock(name)
+  def addItem(name: String): Future[(BigDecimal,BigDecimal)] = {
+    basket = basket :+ Shop.stock(name)
+
+    for {
+      subTotalPrice <- subTotal
+      totalDiscountedPrice     <- total
+    } yield {
+      (subTotalPrice, totalDiscountedPrice)
+    }
+  }
 
   def subTotal: Future[BigDecimal] = Future(basket.foldLeft(BigDecimal(0))((sum, item) => sum + item.price))
 
