@@ -9,8 +9,18 @@ class ShoppingCart(basketItems: Seq[String]) {
 
   def subTotal: Future[BigDecimal] = Future(basket.foldLeft(BigDecimal(0))((sum, item) => sum + item.price))
 
-  def total: Future[BigDecimal] = Future.sequence(basket.groupBy(item => item).map {
-    case (item, items) =>
-      Shop.offers(item).toPay(items)
-  }).map(_.sum)
+  def total: Future[BigDecimal] = Future.sequence {
+    basket.groupBy {
+      item => {
+        val compoundOfferItems = Shop.compoundOfferItems(Shop.offers(item))
+        if (compoundOfferItems.contains(item)) {
+          compoundOfferItems.head
+        } else {
+          item
+        }
+      }
+    }.map {
+      case (item, items) => Shop.offers(item).toPay(items)
+    }
+  }.map(_.sum)
 }

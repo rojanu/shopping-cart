@@ -45,4 +45,16 @@ class ShoppingCartSpecs extends FlatSpec with Matchers with ScalaFutures{
     cart.subTotal.futureValue shouldBe 2.90
     cart.total.futureValue shouldBe 1.70
   }
+
+  "A shopping cart containing Apple, Banana" should "be charged £0.60 pence at checkout" in {
+    val cart = new ShoppingCart(Seq("Apple", "Banana"))
+    cart.subTotal.futureValue shouldBe 0.80
+    cart.total.futureValue shouldBe 0.60
+  }
+
+  "A shopping cart containing Apple, Banana, Apple, Banana" should "be charged £0.60 pence at checkout" in {
+    val cart = new ShoppingCart(Seq("Apple", "Banana", "Apple", "Banana"))
+    cart.subTotal.futureValue shouldBe 1.60
+    cart.total.futureValue shouldBe 1.20
+  }
 }
