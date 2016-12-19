@@ -15,29 +15,31 @@ case class QuantityOffer(get: Int, payFor: BigDecimal) extends Offer {
 
 case class CheaperItemFreeQuantityOffer(get: Int, payFor: BigDecimal) extends Offer {
   override def toPay(items: Seq[Item]): Future[BigDecimal] = {
-    val itemGroups = items.groupBy(item => item.price).toSeq.sortBy(_._1).toArray
-    if (itemGroups.length > 2) {
-      Future(0)
-    } else if (itemGroups.length == 2) {
-      val cheaperItems = itemGroups(0)._2
-      val expensiveItems = itemGroups(1)._2
+    Future {
+      val itemGroups = items.groupBy(item => item.price).toSeq.sortBy(_._1).toArray
+      if (itemGroups.length > 2) {
+        // TODO: Implement when there are more than two items are in the same Compound Offer
+        ???
+      } else if (itemGroups.length == 2) {
+        val cheaperItems = itemGroups(0)._2
+        val expensiveItems = itemGroups(1)._2
 
-      if (cheaperItems.size > expensiveItems.size) {
-        val difference = cheaperItems.size - expensiveItems.size
-        val compoundOfferPrice = (payFor * (expensiveItems.size / get) + (expensiveItems.size % get)) * expensiveItems.head.price
-        val offerPrice = (payFor * (difference / get) + (difference % get)) * cheaperItems.head.price
-        Future(compoundOfferPrice + offerPrice)
-      } else if (cheaperItems.size < expensiveItems.size) {
-        val difference = expensiveItems.size - cheaperItems.size
-        val compoundOfferPrice = (payFor * (expensiveItems.size / get) + (expensiveItems.size % get)) * expensiveItems.head.price
-        val offerPrice = (payFor * (difference / get) + (difference % get)) * expensiveItems.head.price
-        Future(compoundOfferPrice + offerPrice)
+        if (cheaperItems.size > expensiveItems.size) {
+          offerTotalPrice(expensiveItems.size, expensiveItems.head.price) +
+            offerTotalPrice(cheaperItems.size - expensiveItems.size, cheaperItems.head.price)
+        } else if (cheaperItems.size < expensiveItems.size) {
+          offerTotalPrice(cheaperItems.size, expensiveItems.head.price) +
+            offerTotalPrice(expensiveItems.size - cheaperItems.size, expensiveItems.head.price)
+        } else {
+          offerTotalPrice(cheaperItems.size + expensiveItems.size, expensiveItems.head.price)
+        }
       } else {
-        val size = cheaperItems.size + expensiveItems.size
-        Future((payFor * (size / get) + (size % get)) * expensiveItems.head.price)
+        offerTotalPrice(items.size, items.head.price)
       }
-    } else {
-      Future((payFor * (items.size / get) + (items.size % get)) * items.head.price)
     }
+  }
+
+  private def offerTotalPrice(size: Int, price: BigDecimal) = {
+    (payFor * (size / get) + (size % get)) * price
   }
 }
